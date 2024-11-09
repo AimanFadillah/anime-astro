@@ -9,7 +9,7 @@ export interface Episode {
     title: string;
     date: string;
     slug: string;
-    image?: string | undefined;
+    image: string;
     episode?: string;
     posted?: string;
 }
@@ -25,7 +25,7 @@ export interface Anime {
     duration?: string;
     season?: Slug;
     producers?: Slug[];
-    synopsis?: string;
+    synopsis: string;
     status?: string;
     source?: string;
     total_episode?: string;

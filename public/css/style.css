@@ -6,6 +6,10 @@
     min-height: 170px;
 }
 
+.height-card-anime{
+    height: 600px;
+}
+
 .max-height-carousel {
     max-height: 400px;
 }

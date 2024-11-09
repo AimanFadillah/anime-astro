@@ -1,15 +1,20 @@
 ---
 import Card from "../components/dynamic/Card.astro";
 import Pagination from "../components/dynamic/Pagination.astro";
-import Carousel from "../layouts/Carousel.astro";
+import Carousel from "../components/static/Carousel.astro";
 import Layout from "../layouts/Layout.astro"
-import type {Anime} from "../type";
+import type {Anime, Episode} from "../type";
 
-const page:number = parseInt(new URL(Astro.request.url).searchParams.get("page") ?? "1") || 1;
-const response = await fetch(`https://samehadaku-api-man.vercel.app?page=${page}`,{
+// const page:number = parseInt(new URL(Astro.request.url).searchParams.get("page") ?? "1") || 1;
+const page:number = 1;
+const responseEpisode = await fetch(`https://samehadaku-api-man.vercel.app?page=${page}`,{
 	method:"get"
 });
-const animes:Anime[] = await response.json();
+const responseAnime = await fetch(`https://samehadaku-api-man.vercel.app/anime?page=${page}&order=update`,{
+	method:"get"
+});
+const episodes:Episode[] = await responseEpisode.json();
+const animes:Anime[] = await responseAnime.json();
 ---
 
 <Layout title="Nonton Anime terbaik dengan gratis" >
@@ -19,9 +24,9 @@ const animes:Anime[] = await response.json();
     <h1 class="fs-3" >Episode Terbaru</h1>
 
 	<div class="row mt-3">
-		{animes.map((anime) => {
+		{episodes.map((episode) => {
 			return <div class="col-12 col-md-3 my-1 mb-3">
-                <Card title={anime.title} image={anime.image} />
+                <Card title={episode.title} image={episode.image} description={episode.date} />
 			</div>
 		})}
 	</div>
@@ -29,5 +34,20 @@ const animes:Anime[] = await response.json();
     <div class="d-flex justify-content-end mt-3" data-bs-theme="">
         <Pagination page={page} />
     </div>
+
+    <h1 class="fs-3">Anime Terbaru</h1>
+
+    <div class="row mt-3">
+		{animes.map((anime) => {
+			return <div class="col-12 col-md-4 my-1 mb-3">
+                <Card title={anime.title} image={anime.image} description={anime.synopsis} type="anime" />
+			</div>
+		})}
+	</div>
+
+    <div class="d-flex justify-content-end mt-3" data-bs-theme="">
+        <Pagination page={page} />
+    </div>
+
 	
 </Layout>
