@@ -1,0 +1,14 @@
+---
+interface Props {
+    image: string;
+    title: string;
+}
+
+const {image,title} = Astro.props;
+---
+<div class="card shadow" >
+    <img src={"https://mangapi-man.vercel.app/gambar?url=" + image} class="min-height-card card-img-top" alt={title}>
+    <div class="card-body">
+        <h5 class="card-title text-truncate">{title}</h5>
+    </div>
+</div>

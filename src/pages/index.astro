@@ -1,90 +1,33 @@
 ---
+import Card from "../components/dynamic/Card.astro";
+import Pagination from "../components/dynamic/Pagination.astro";
+import Carousel from "../layouts/Carousel.astro";
 import Layout from "../layouts/Layout.astro"
-
-interface Slug {
-    title:string,
-    slug:string,
-}	
-
-interface Episode {
-    title:string,
-    date:string,
-    slug:string,
-    image?:string | undefined,
-    episode?:string,
-    posted?:string,
-}
-
-interface Anime {
-	title:string,
-    image:string | undefined,
-    slug:string | undefined,
-    rating?:string,
-    type?:string,
-    description?:string
-    genre?:Slug[],
-    duration?:string,
-    season?:Slug,
-    producers?:Slug[],
-    synopsis?:string,
-    status?:string,
-    source?:string,
-    total_episode?:string,
-    studio?:Slug,
-    released?:string,
-    trailer?:string,
-    episode?:Episode[],
-}
+import type {Anime} from "../type";
 
 const page:number = parseInt(new URL(Astro.request.url).searchParams.get("page") ?? "1") || 1;
-const origin:string = Astro.url.origin;
 const response = await fetch(`https://samehadaku-api-man.vercel.app?page=${page}`,{
 	method:"get"
 });
 const animes:Anime[] = await response.json();
 ---
 
-<Layout title="Nonton Anime Terbaik dengan gratis" >
+<Layout title="Nonton Anime terbaik dengan gratis" >
+
+    <Carousel />
+
+    <h1 class="fs-3" >Episode Terbaru</h1>
 
 	<div class="row mt-3">
 		{animes.map((anime) => {
-			return <div class="col-6 col-md-3 my-1 mb-3">
-				<div class="card shadow" >
-					<img src={"https://mangapi-man.vercel.app/gambar?url=" + anime.image} class="image-height-card card-img-top" alt={anime.title}>
-					<div class="card-body">
-						<h5 class="card-title text-truncate">{anime.title}</h5>
-					</div>
-				</div>
+			return <div class="col-12 col-md-3 my-1 mb-3">
+                <Card title={anime.title} image={anime.image} />
 			</div>
 		})}
 	</div>
 	
     <div class="d-flex justify-content-end mt-3" data-bs-theme="">
-        <nav aria-label="pagination">
-            <ul class="pagination ">
-                <li class={`page-item ${page == 1 ? "disabled" : ""}`}>
-                    {page == 1 ?
-                    <span class="page-link">Previous</span>
-                    : 
-                    <a class="page-link" href={`${origin}?page=${page - 1}`}>Previous</a>
-                    }
-                </li>
-                <li class="page-item">
-                    {page != 1 ?
-                        <a class="page-link" href={`${origin}?page=${page - 1}`}>{page - 1}</a>
-                            :
-                        <span class="page-link d-none">1</span>
-                    }
-                </li> 
-                <li class="page-item" aria-current="page">
-                    <span class="page-link active">{page}</span>
-                </li>
-                <li class="page-item"><a class="page-link" href={`${origin}?page=${page + 1}`}>{page + 1}</a></li>
-                <li class="page-item">
-                    <a class="page-link " href={`${origin}?page=${page + 1}`} >Next</a>
-                </li>
-            </ul>
-        </nav>
+        <Pagination page={page} />
     </div>
 	
 </Layout>
