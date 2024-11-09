@@ -1,10 +1,11 @@
 ---
 interface Props {
-    page:number
+    page:number;
+    link?:string
 }
 
-const origin:string = Astro.url.origin;
-const {page} = Astro.props;
+const {page,link} = Astro.props;
+const origin:string = Astro.url.origin + link;
 
 ---
 

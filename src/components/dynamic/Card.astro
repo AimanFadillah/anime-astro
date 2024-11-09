@@ -3,15 +3,16 @@ interface Props {
     image: string;
     title: string;
     description:string;
+    link?:string,
     type?:string
 }
 
-const {image,title,description,type = "episode"} = Astro.props;
+const {image,title,description,type = "episode",link = "/"} = Astro.props;
 ---
-<div class="card shadow h-100" >
+<a href={link} class="card shadow h-100 text-decoration-none" >
     <img src={"https://mangapi-man.vercel.app/gambar?url=" + image} class={`${type === "episode" ? "min-height-card" : "height-card-anime"} card-img-top`} alt={title}>
     <div class="card-body">
-        <h2 class="fs-5 card-title text-truncate">{title}</h5>
+        <h5 class="fs-5 card-title text-truncate">{title}</h5>
         <p class="card-text" >{description}</p>
     </div>
-</div>
+</a>
