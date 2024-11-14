@@ -1,38 +1,19 @@
 ---
 import Card from "../components/dynamic/Card.astro";
 import Pagination from "../components/dynamic/Pagination.astro";
-import Carousel from "../components/static/Carousel.astro";
 import Layout from "../layouts/Layout.astro"
-import type {Anime, Episode} from "../type";
+import type {Anime} from "../type";
 
-const page:number = 1;
-const responseEpisode = await fetch(`https://samehadaku-api-man.vercel.app?page=${page}`,{
-	method:"get"
-});
+const page:number = parseInt(new URL(Astro.request.url).searchParams.get("page") ?? "1") || 1;
 const responseAnime = await fetch(`https://samehadaku-api-man.vercel.app/anime?page=${page}&order=update`,{
 	method:"get"
 });
-const episodes:Episode[] = await responseEpisode.json();
 const animes:Anime[] = await responseAnime.json();
 ---
 
 <Layout title="Nonton Anime terbaik dengan gratis" >
 
-    <h1 class="fs-3 mt-3" >Episode Anime Terbaru</h1>
-
-	<div class="row mt-3">
-		{episodes.map((episode) => {
-			return <div class="col-12 col-md-3 my-1 mb-3">
-                <Card link={`/episode/${episode.slug}`} title={episode.title} image={episode.image} description={episode.date} />
-			</div>
-		})}
-	</div>
-	
-    <div class="d-flex justify-content-end mt-3" data-bs-theme="">
-        <Pagination page={page} link="/episode" />
-    </div>
-
-    <h2 class="fs-3 mt-4">Anime Anime Terbaru</h2>
+    <h1 class="fs-3 mt-4">Anime Anime Terbaru</h1>
 
     <div class="row mt-3">
 		{animes.map((anime) => {

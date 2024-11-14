@@ -1,0 +1,30 @@
+---
+import Card from "../components/dynamic/Card.astro";
+import Pagination from "../components/dynamic/Pagination.astro";
+import Layout from "../layouts/Layout.astro"
+import type {Episode} from "../type";
+
+const page:number = parseInt(new URL(Astro.request.url).searchParams.get("page") ?? "1") || 1;
+const responseEpisode = await fetch(`https://samehadaku-api-man.vercel.app?page=${page}`,{
+	method:"get"
+});
+const episodes:Episode[] = await responseEpisode.json();
+---
+
+<Layout title="Episode Anime Terbaru" >
+
+    <h1 class="fs-3 mt-4" >Episode Anime Terbaru</h1>
+
+	<div class="row mt-3">
+		{episodes.map((episode) => {
+			return <div class="col-12 col-md-3 my-1 mb-3">
+                <Card link={`/episode/${episode.slug}`} title={episode.title} image={episode.image} description={episode.date} />
+			</div>
+		})}
+	</div>
+	
+    <div class="d-flex justify-content-end mt-3" data-bs-theme="">
+        <Pagination page={page} link="/episode" />
+    </div>
+
+</Layout>
