@@ -37,7 +37,7 @@ const animes:Anime[] = await responseAnime.json();
 
     <div class="row mt-3">
 		{animes.map((anime) => {
-			return <div class="col-12 col-md-4 my-1 mb-3">
+			return <div class="col-6 col-md-3 my-1 mb-3">
                 <Card link={`/anime/${anime.slug}`} title={anime.title} image={anime.image} description={anime.synopsis} type="anime" />
 			</div>
 		})}

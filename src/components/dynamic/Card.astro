@@ -13,6 +13,6 @@ const {image,title,description,type = "episode",link = "/"} = Astro.props;
     <img src={"https://mangapi-man.vercel.app/gambar?url=" + image} loading="lazy" class={`${type === "episode" ? "min-height-card" : "height-card-anime"} card-img-top`} alt={title}>
     <div class="card-body">
         <h5 class="fs-5 card-title text-truncate">{title}</h5>
-        <p class="card-text" >{description}</p>
+        <p class="card-text d-md-block d-none" >{description}</p>
     </div>
 </a>
