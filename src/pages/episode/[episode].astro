@@ -64,7 +64,7 @@ const iframeLink = (await responseIframe.json()).iframe;
                 <button type="button" class="btn btn-primary" disabled>Next</button>
                 }
             </div>
-                <div class="scrollable-streaming">
+                <div class="scrollable-streaming rounded">
                     {streaming.episode?.filter(episode => episode.slug !== episodeSlug).map((episode) => 
                     <div class="col-12 mb-3">
                         <Card link={`/episode/${episode.slug}?mirror=${mirror}` } title={episode.title} image={episode.image} description={episode.date} episode={episode.slug.split("episode")[1].replace("-","  ") } />
