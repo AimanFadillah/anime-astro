@@ -1,0 +1,8 @@
+---
+const nume = new URL(Astro.request.url).searchParams.get("nume")
+const post = new URL(Astro.request.url).searchParams.get("post")
+const responseIframe = await fetch(`https://samehadaku-api-man.vercel.app/iframe?post=${post}&nume=${nume}`)
+const iframeLink = (await responseIframe.json()).iframe;
+---
+
+<iframe sandbox="allow-same-origin allow-scripts allow-forms" src={iframeLink} allowfullscreen></iframe>

@@ -1,0 +1,84 @@
+---
+import Card from "../../components/dynamic/Card.astro";
+import Layout from "../../layouts/Layout.astro";
+import type {Streaming} from "../../type";
+
+const { episode:episodeSlug } = Astro.params;
+const response = await fetch(`https://samehadaku-api-man.vercel.app/episode/${episodeSlug}`,{
+	method:"get"
+});
+const streaming:Streaming = await response.json();
+const mirror:string|boolean = new URL(Astro.request.url).searchParams.get("mirror") || streaming.iframe[0].title;
+const iframe = streaming.iframe.find(iframe => iframe.title == mirror) || streaming.iframe[0];
+const responseIframe = await fetch(`https://samehadaku-api-man.vercel.app/iframe?post=${iframe.post}&nume=${iframe.nume}`)
+const iframeLink = (await responseIframe.json()).iframe;
+---
+
+<Layout title={streaming.title} >
+    <div class="row pt-3 mt-4 rounded">
+        <div class="col-md-8">
+            <div class="container-iframe bg-dark">
+                {iframe.title.toLocaleLowerCase().includes("vidhide") ?
+                <iframe src={iframeLink} allowfullscreen></iframe>
+                :
+                <iframe sandbox="allow-same-origin allow-scripts allow-forms" src={iframeLink} allowfullscreen></iframe>
+                }
+            </div>
+            <div class="row w-100 mt-3 mx-0">
+                <div class="col-md-8 col-12 px-1 d-flex">
+                    <h1 class="fs-md-5 mb-3" >{streaming.title}</h1>
+                </div>
+                <div class="col-md-4 col-12 d-flex justify-content-md-end px-1">
+                    <div class="body">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMirror">
+                            <i class="bi bi-list-ul"></i> {iframe.title} 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group col-12 mb-3" role="group" aria-label="Basic example">
+                {streaming.previousStreaming != "#" ? 
+                <a href={`/episode/${streaming.previousStreaming}?mirror=${mirror}`} type="button" class="btn btn-primary">Prev</a>
+                :
+                <button type="button" class="btn btn-primary" disabled>Prev</button>
+                }
+                {streaming.nextStreaming != "#" ?
+                <a href={`/episode/${streaming.nextStreaming}?mirror=${mirror}`} type="button" class="btn btn-primary">Next</a>:    
+                <button type="button" class="btn btn-primary" disabled>Next</button>
+                }
+            </div>
+            {streaming.episode?.filter(episode => episode.slug !== episodeSlug).map((episode) => 
+                <div class="col-12 mb-3">
+                    <Card link={`/episode/${episode.slug}?mirror=${mirror}` } title={episode.title} image={episode.image} description={episode.date} episode={episode.slug.split("episode")[1].replace("-","  ") } />
+                </div>
+            )}            
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalMirror" tabindex="-1" aria-labelledby="modalMirror" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalMirror">Mirror</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="list-group rounded-bottom border-0">
+                    {streaming.iframe.map(fr => 
+                        fr.title == iframe.title ? 
+                        <a href={Astro.url.pathname + `?mirror=${fr.title}`} class="list-group-item active rounded-0" aria-current="true">
+                            {fr.title}
+                        </a>
+                        :
+                        <a href={Astro.url.pathname + `?mirror=${fr.title}`} class="list-group-item rounded-0">
+                            {fr.title}
+                        </a>
+                    )}
+                </div>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+   
