@@ -24,16 +24,31 @@ const iframeLink = (await responseIframe.json()).iframe;
                 <iframe sandbox="allow-same-origin allow-scripts allow-forms" src={iframeLink} allowfullscreen></iframe>
                 }
             </div>
-            <div class="row w-100 mt-3 mx-0">
+            <div class="row w-100 mt-3 mb-4 mx-0">
                 <div class="col-md-8 col-12 px-1 d-flex">
                     <h1 class="fs-md-5 mb-3" >{streaming.title}</h1>
                 </div>
                 <div class="col-md-4 col-12 d-flex justify-content-md-end px-1">
                     <div class="body">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMirror">
-                            <i class="bi bi-list-ul"></i> {iframe.title} 
+                            <i class="bi bi-list-ul"></i> 
+                            {iframe.title}
                         </button>
                     </div>
+                </div>
+            </div>
+            <div class="row rounded justify-content-center d-none d-md-flex">
+                <div class="col-6 col-md-4">
+                    <img src={`https://mangapi-man.vercel.app/gambar?url=${streaming.image}`} alt={streaming.anime}  class="img-fluid shadow rounded w-100">
+                </div>
+                <div class="col-md-8 ps-3 pt-2">
+                    <h2 class="fs-md-5" >{streaming.anime}</h2>
+                    <div aria-label="genre" class="mb-2" >
+                        {streaming.genre?.map(genre => 
+                            <span class="badge bg-theme text-theme me-1">{genre.title}</span>
+                        )}
+                    </div>
+                    <p>{streaming.synopsis}</p>
                 </div>
             </div>
         </div>
