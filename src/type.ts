@@ -17,25 +17,30 @@ export interface Episode {
     posted?: string;
 }
 
-export interface Anime {
-    title: string;
-    image: string;
-    slug?: string;
-    rating?: string;
-    type?: string;
-    description?: string;
-    genre?: Slug[];
-    duration?: string;
-    season?: Slug;
-    producers?: Slug[];
-    synopsis: string;
-    status?: string;
-    source?: string;
-    total_episode?: string;
-    studio?: Slug;
-    released?: string;
-    trailer?: string;
-    episode?: Episode[];
+export interface DetailAnime {
+    japanese?: string,
+    english?: string,
+    status?: string,
+    type?: string,
+    source?: string,
+    duration?: string,
+    total_episode?: string,
+    season?:Slug | null,
+    studio?:Slug | null,
+    producers?:Slug[] | null,
+    released?:string
+}
+
+export interface Anime extends DetailAnime {
+    title:string,
+    image:string,
+    slug:string,
+    rating?:string,
+    description:string
+    genre?:Slug[],
+    synopsis:string,
+    trailer?:string,
+    episode?:Episode[],
 }
 
 export interface Iframe {
@@ -60,6 +65,7 @@ export interface FormatDownload {
 
 export interface Streaming extends Anime {
     anime?:string,
+    anime_slug:string,
     nextStreaming?:string,
     previousStreaming?:string,
     iframe:Iframe[],

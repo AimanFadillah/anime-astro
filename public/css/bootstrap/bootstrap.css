@@ -201,6 +201,14 @@
   background-color: var(--bs-body-bg);
 }
 
+.text-theme{
+  color: var(--bs-emphasis-color);
+}
+
+.text-theme-black{
+  color: var(--bs-body-bg);
+}
+
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);

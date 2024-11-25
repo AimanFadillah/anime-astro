@@ -1,7 +1,6 @@
 ---
 import Card from "../components/dynamic/Card.astro";
 import Pagination from "../components/dynamic/Pagination.astro";
-import Carousel from "../components/static/Carousel.astro";
 import Layout from "../layouts/Layout.astro"
 import type {Anime, Episode} from "../type";
 
@@ -17,9 +16,8 @@ const animes:Anime[] = await responseAnime.json();
 ---
 
 <Layout title="Nonton Anime Terbaru - Episode dan Season Lengkap Tanpa Iklan" >
-
 	
-	<h1 class="fs-4 mt-3" >Nonton Anime Terbaru Semua Season dan Episode Tanpa Iklan</h1>
+	<h1 class="fs-4 mt-4" >Nonton Anime Terbaru Semua Season dan Episode Tanpa Iklan</h1>
 
 	<div class="row mt-3">
 		{episodes.map((episode) => {
