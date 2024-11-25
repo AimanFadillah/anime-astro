@@ -78,7 +78,7 @@ const bulanKeAngka = [
     <div class="row mt-4 rounded rounded">
         {anime.episode?.map((episode) => 
             <div class="col-12 mb-3 p-0">
-                <Card link={`/episode/${episode.slug}` } title={episode.title} description={episode.date} episode={episode.slug.split("episode")[1].replace("-","  ") } />
+                <Card link={`/episode/${episode.slug}` } title={episode.title} description={episode.date} episode={episode.slug.split("episode")[1] ? episode.slug.split("episode")[1].replace("-","  ") : "-"} />
             </div>
         )}      
     </div>
