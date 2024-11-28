@@ -5,7 +5,8 @@ import Layout from "../layouts/Layout.astro"
 import type {Anime} from "../type";
 
 const page:number = parseInt(new URL(Astro.request.url).searchParams.get("page") ?? "1") || 1;
-const responseAnime = await fetch(`https://samehadaku-api-man.vercel.app/anime?page=${page}&order=update`,{
+const title:string = new URL(Astro.request.url).searchParams.get("search") || "";
+const responseAnime = await fetch(`https://samehadaku-api-man.vercel.app/anime?page=${page}&order=update&title=${title}`,{
 	method:"get"
 });
 const animes:Anime[] = await responseAnime.json();
@@ -23,8 +24,8 @@ const animes:Anime[] = await responseAnime.json();
 		})}
 	</div>
 
-    <div class="d-flex justify-content-end mt-3" data-bs-theme="">
-        <Pagination page={page} link="/anime" />
+    <div class={`d-flex justify-content-end mt-3 ${animes.length == 30 ? "" : "d-none"}`}>
+        <Pagination page={page} link="/anime" request={title ? {search:title} : null} />
     </div>
 
 	

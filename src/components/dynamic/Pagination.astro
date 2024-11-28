@@ -1,12 +1,27 @@
 ---
 interface Props {
     page:number;
-    link?:string
+    link?:string|null;
+    request?:NonNestedObject|null
 }
 
-const {page,link} = Astro.props;
-const origin:string = Astro.url.origin + link;
+type NonNestedObject = {
+  [key: string]: string | number | boolean | null | undefined; 
+};
 
+const {page,link,request} = Astro.props;
+const queryPrev = {
+    ...request,
+    page:(page - 1).toString(),
+}
+const queryNext  = {
+    ...request,
+    page:(page + 1).toString(),
+}
+const origin:string = Astro.url.origin + link;
+const linkPrev = origin + "?"  + new URLSearchParams(queryPrev).toString();
+const linkNext = origin + "?"  + new URLSearchParams(queryNext).toString();
+console.log(linkPrev);
 ---
 
 <nav aria-label="pagination">
@@ -15,12 +30,12 @@ const origin:string = Astro.url.origin + link;
             {page == 1 ?
             <span class="page-link">Previous</span>
             : 
-            <a class="page-link" href={`${origin}?page=${page - 1}`}>Previous</a>
+            <a class="page-link" href={linkPrev}>Previous</a>
             }
         </li>
         <li class="page-item">
             {page != 1 ?
-                <a class="page-link" href={`${origin}?page=${page - 1}`}>{page - 1}</a>
+                <a class="page-link" href={linkPrev} >{page - 1}</a>
                     :
                 <span class="page-link d-none">1</span>
             }
@@ -28,9 +43,9 @@ const origin:string = Astro.url.origin + link;
         <li class="page-item" aria-current="page">
             <span class="page-link active">{page}</span>
         </li>
-        <li class="page-item"><a class="page-link" href={`${origin}?page=${page + 1}`}>{page + 1}</a></li>
+        <li class="page-item"><a class="page-link" href={linkNext}>{page + 1}</a></li>
         <li class="page-item">
-            <a class="page-link " href={`${origin}?page=${page + 1}`} >Next</a>
+            <a class="page-link " href={linkNext} >Next</a>
         </li>
     </ul>
 </nav>
