@@ -1,7 +1,7 @@
 ---
 import Pagination from "../dynamic/Pagination.astro";
 
-const page:number = 1;
+const page:number = parseInt(new URL(Astro.request.url).searchParams.get("page") ?? "1") || 1;
 ---
 <div class="row mt-3" id="list_episode">
     {(new Array(16).fill(0)).map(() => {
