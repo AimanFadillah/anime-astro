@@ -1,32 +1,11 @@
 ---
-import Card from "../components/dynamic/Card.astro";
-import Pagination from "../components/dynamic/Pagination.astro";
+import AnimeCSR from "../components/static/AnimeCSR.astro"
 import Layout from "../layouts/Layout.astro"
-import type {Anime} from "../type";
-
-const page:number = parseInt(new URL(Astro.request.url).searchParams.get("page") ?? "1") || 1;
-const title:string = new URL(Astro.request.url).searchParams.get("search") || "";
-const responseAnime = await fetch(`https://samehadaku-api-man.vercel.app/anime?page=${page}&order=update&title=${title}`,{
-	method:"get"
-});
-const animes:Anime[] = await responseAnime.json();
 ---
 
 <Layout title="Nonton Anime terbaik dengan gratis" >
 
     <h1 class="fs-3 mt-4">Anime Anime Terbaru</h1>
-
-    <div class="row mt-3">
-		{animes.map((anime) => {
-			return <div class="col-12 col-md-3 my-1 mb-3">
-                <Card link={`/anime/${anime.slug}`} title={anime.title} image={anime.image} description={anime.synopsis} type="anime" />
-			</div>
-		})}
-	</div>
-
-    <div class={`d-flex justify-content-end mt-3 ${animes.length == 30 ? "" : "d-none"}`}>
-        <Pagination page={page} link="/anime" request={title ? {search:title} : null} />
-    </div>
-
-	
+    
+	<AnimeCSR />
 </Layout>
