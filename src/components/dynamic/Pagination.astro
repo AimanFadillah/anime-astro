@@ -21,7 +21,6 @@ const queryNext  = {
 const origin:string = Astro.url.origin + link;
 const linkPrev = origin + "?"  + new URLSearchParams(queryPrev).toString();
 const linkNext = origin + "?"  + new URLSearchParams(queryNext).toString();
-console.log(linkPrev);
 ---
 
 <nav aria-label="pagination">

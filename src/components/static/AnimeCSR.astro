@@ -7,7 +7,7 @@ const title:string = new URL(Astro.request.url).searchParams.get("search") || ""
 ---
 <div class="row mt-3" id="list_anime">
     {(new Array(30).fill(0)).map(() => {
-         return <div class="col-12 col-md-3 my-1 mb-3">
+         return <div class="col-12 col-md-4 my-1 mb-3">
             <div class="card shadow h-100 text-decoration-none" >
                 <svg class="bd-placeholder-img card-img-top height-card-anime" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#868e96"></rect></svg>
                 <div class="card-body">
